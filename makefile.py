@@ -10,10 +10,14 @@ if __name__ == "__main__":
 		
 	try:
 		data = open("loader32.c", "r").read()
+		shellcode = binascii.b2a_hex(open(sys.argv[1], "rb").read()).decode()
 	except:
-		print("Error reading loader32.c")
+		print("Error reading file")
 		sys.exit(0)
 		
+	shellcode = "0x" + ",0x".join(re.findall("..", shellcode))
 		
-	data = data.replace("{{SHELLCODE}}", sys.argv[1])
+	data = data.replace("{{SHELLCODE}}", shellcode)
 	open(sys.argv[2], "w").write(data)
+	
+	print("%s was created" % sys.argv[2])
