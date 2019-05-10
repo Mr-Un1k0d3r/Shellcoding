@@ -12,7 +12,6 @@ if __name__ == "__main__":
 		data = binascii.b2a_hex(open(sys.argv[1], "rb").read()).decode()
 	except:
 		print("Error reading %s" % sys.argv[1])
-		print(sys.exc_info()[1])
 		sys.exit(0)
 		
 	if "-list" in sys.argv:
