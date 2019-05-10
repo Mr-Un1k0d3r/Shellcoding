@@ -5,6 +5,8 @@ Bunch of stuff I used that are related to shellcoding
 
 A simple shellcode loader in C. This shellcode loader is not storing the shellcode in the data section. It store it directly in the text section to new to do shady memory allocation to call your shellcode.
 
+The ASM syntax is for GCC compiler it can be adapted for VC too
+
 # raw2hex.py
 
 ```
