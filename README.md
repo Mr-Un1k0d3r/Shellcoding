@@ -72,7 +72,7 @@ raw2hex.py rawshellcodefile
 Generate the final C code
 
 ```
-makefile.py 0x90,0x90,0x90 output.c
+makefile.py shellcode.raw output.c
 ```
 
 # Credit
