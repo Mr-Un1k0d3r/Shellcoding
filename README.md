@@ -124,6 +124,9 @@ Generate the final C code
 ```
 makefile.py shellcode.raw output.c
 ```
+# PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON.c
+
+C code to execute your payload and avoiding any NON MICROSOFT DLLs from been loaded.
 
 # Credit
 Mr.Un1k0d3r RingZer0 Team
